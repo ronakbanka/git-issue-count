@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/google/go-github/github"
+	"github.com/stackimpact/stackimpact-go"
+
 )
 
 type issue struct {
@@ -19,6 +21,11 @@ type issue struct {
 func main() {
 
 	log.Printf("Server started listening on %s", os.Getenv("PORT"))
+        
+        // Add stackimpact analysis
+        stackkey := os.Getenv("STACKIMPACT_KEY")
+        agent := stackimpact.NewAgent()
+        agent.Configure(stackkey, "github-issue-count")
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/getinfo", getinfo)
